@@ -9,6 +9,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
+
+import javax.inject.Inject;
 
 import dagger.android.support.DaggerAppCompatActivity;
 
@@ -16,6 +19,8 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
     public static final long CLICK_TIME_INTERVAL = 300L;
 
     protected ViewController mViewController;
+    @Inject
+    protected ViewModelProvider.Factory viewModelFactory;
 
     public static long lastClickTime = System.currentTimeMillis();
 

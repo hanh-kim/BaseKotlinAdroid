@@ -35,10 +35,6 @@ public class ViewController<T extends BaseFragment> {
         //listClass = new ArrayList<>();
     }
 
-    public static String wss_b() {
-        return "0742e61692f77732f6c69766563686174";
-    }
-
     public BaseFragment getCurrentFragment() {
         return currentFragment;
     }

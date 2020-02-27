@@ -38,7 +38,7 @@ class NetworkModule {
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
 
-        return retrofit.create(ApiInterface::class.java!!)
+        return retrofit.create(ApiInterface::class.java)
     }
 
     @Provides
