@@ -1,14 +1,17 @@
 package com.base.mvvmbasekotlin.network
 
 
+import com.base.mvvmbasekotlin.base.entity.BaseListLoadMoreResponse
 import com.base.mvvmbasekotlin.entity.User
 import io.reactivex.Single
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Url
+import retrofit2.http.*
 
 interface ApiInterface {
 
-    @GET
-    fun getDataUser(@Url url: String): Single<User>
+    @GET("search")
+    @Headers("Content-Type: application/json", "lang: vi")
+    fun getDataUser(
+        @Query("s") keyWord: String,
+        @Query("page") page: Int
+    ): Single<BaseListLoadMoreResponse<User>>
 }

@@ -1,25 +1,26 @@
 package com.base.mvvmbasekotlin.ui
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.base.mvvmbasekotlin.base.BaseViewModel
+import com.base.mvvmbasekotlin.base.entity.BaseListLoadMoreResponse
 import com.base.mvvmbasekotlin.entity.User
 import com.base.mvvmbasekotlin.network.Repository
 import javax.inject.Inject
 
 class SplashViewModel @Inject constructor(var repo: Repository) : BaseViewModel() {
-    var data: MutableLiveData<User> = MutableLiveData()
-
+    var data: MutableLiveData<BaseListLoadMoreResponse<User>> = MutableLiveData()
+    var pageIndex = 1
     fun getData() {
-        mDisposable.add(repo.getData().doOnSubscribe {
-
+        mDisposable.add(repo.getData(pageIndex).doOnSubscribe {
+            data.value = BaseListLoadMoreResponse<User>().loading()
         }
             .subscribe(
                 {
-                    data.value = it
+                    pageIndex++
+                    data.value = BaseListLoadMoreResponse<User>().success(it.data,true,pageIndex<=it.totalPage)
                 },
                 {
-                    Log.v("ahuhu","error=> ${it.message}")
+                    data.value = BaseListLoadMoreResponse<User>().error(throwable = it)
                 }
             ))
     }

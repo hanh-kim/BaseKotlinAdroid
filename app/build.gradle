@@ -28,8 +28,7 @@ android {
         debug {
             //signingConfig signingConfigs.debug
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField("String", "BASE_URL", "\"https://jsonplaceholder.typicode.com/todos/1/\"")
+            buildConfigField 'String', 'BASE_URL', '"http://handycart.beetechdev.vn/api/v1/"'
             buildConfigField("String", "API_KEY", "\"${API_KEY}\"")
         }
         stage {
@@ -82,6 +81,7 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
     implementation "com.google.dagger:dagger-android-support:$dagger_version"
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'

@@ -7,13 +7,29 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.base.mvvmbasekotlin.R;
+import com.base.mvvmbasekotlin.network.NetworkCheckerInterceptor;
+import com.base.mvvmbasekotlin.network.entity.RequestError;
+import com.base.mvvmbasekotlin.utils.Define;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
+
+import java.io.IOException;
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
+import java.util.Objects;
+
 import javax.inject.Inject;
 
 import dagger.android.support.DaggerAppCompatActivity;
+import retrofit2.HttpException;
 
 public abstract class BaseActivity extends DaggerAppCompatActivity {
     public static final long CLICK_TIME_INTERVAL = 300L;
@@ -128,53 +144,54 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
     }
 
 
-//    @Nullable
-//    public RequestError handleNetworkError(Throwable throwable, boolean isShowDialog) {
-//        RequestError requestError = new RequestError();
-//
-//        if (throwable instanceof NetworkCheckerInterceptor.NoConnectivityException) {
-//            requestError.setErrorCode(Define.Api.Error.NO_NETWORK_CONNECTION);
-//            requestError.setErrorMessage(throwable.getMessage());
-//        } else if (throwable instanceof HttpException) {
-//            HttpException httpException = (HttpException) throwable;
-//            String errorBody;
-//            try {
-//                errorBody = Objects.requireNonNull(httpException.response().errorBody()).string();
-//                Gson gson = new GsonBuilder().create();
+    @Nullable
+    public RequestError handleNetworkError(Throwable throwable, boolean isShowDialog) {
+        RequestError requestError = new RequestError();
+
+        if (throwable instanceof NetworkCheckerInterceptor.NoConnectivityException) {
+            requestError.setErrorCode(Define.Api.NO_NETWORK_CONNECTION);
+            requestError.setErrorMessage(throwable.getMessage());
+        } else if (throwable instanceof HttpException) {
+            HttpException httpException = (HttpException) throwable;
+            String errorBody;
+            try {
+                errorBody = Objects.requireNonNull(httpException.response().errorBody()).string();
+                Gson gson = new GsonBuilder().create();
+                requestError = gson.fromJson(errorBody, RequestError.class);
 //                ApiObjectResponse apiResponse = gson.fromJson(errorBody, ApiObjectResponse.class);
 //                if (apiResponse != null && apiResponse.getRequestError() != null) {
 //                    requestError = apiResponse.getRequestError();
 //                } else {
 //                    requestError.setErrorCode(String.valueOf(httpException.code()));
-//                    requestError.setErrorMessage(getString(R.string.message_login_failed));
+//                    requestError.setErrorMessage(getString(R.string.error_place_holder));
 //                }
-//            } catch (IOException e) {
-//                requestError.setErrorCode(Define.Api.Error.TIME_OUT);
-//                requestError.setErrorMessage(getString(R.string.message_login_failed));
-//            } catch (IllegalStateException e) {
-//                requestError.setErrorCode(Define.Api.Error.TIME_OUT);
-//                requestError.setErrorMessage(getString(R.string.message_login_failed));
-//            } catch (JsonSyntaxException e) {
-//                requestError.setErrorCode(Define.Api.Error.TIME_OUT);
-//                requestError.setErrorMessage(getString(R.string.message_login_failed));
-//            }
-//        } else if (throwable instanceof ConnectException
-//                || throwable instanceof SocketTimeoutException
-//                || throwable instanceof UnknownHostException
-//                || throwable instanceof IOException) {
-//            requestError.setErrorCode(Define.Api.Error.TIME_OUT);
-//            requestError.setErrorMessage(getString(R.string.message_login_failed));
-//        } else {
-//            requestError.setErrorCode(Define.Api.Error.UNKNOWN);
-//            requestError.setErrorMessage(getString(R.string.message_login_failed));
-//        }
-//
-//        if (isShowDialog && requestError != null) {
-//            Toast.makeText(this, requestError.getErrorMessage(), Toast.LENGTH_LONG).show();
-//        }
-//
-//        return requestError;
-//    }
+            } catch (IOException e) {
+                requestError.setErrorCode(Define.Api.TIME_OUT);
+                requestError.setErrorMessage(getString(R.string.error_place_holder));
+            } catch (IllegalStateException e) {
+                requestError.setErrorCode(Define.Api.TIME_OUT);
+                requestError.setErrorMessage(getString(R.string.error_place_holder));
+            } catch (JsonSyntaxException e) {
+                requestError.setErrorCode(Define.Api.TIME_OUT);
+                requestError.setErrorMessage(getString(R.string.error_place_holder));
+            }
+        } else if (throwable instanceof ConnectException
+                || throwable instanceof SocketTimeoutException
+                || throwable instanceof UnknownHostException
+                || throwable instanceof IOException) {
+            requestError.setErrorCode(Define.Api.TIME_OUT);
+            requestError.setErrorMessage(getString(R.string.error_place_holder));
+        } else {
+            requestError.setErrorCode(Define.Api.UNKNOWN);
+            requestError.setErrorMessage(getString(R.string.error_place_holder));
+        }
+
+        if (isShowDialog && requestError != null) {
+            Toast.makeText(this, requestError.getErrorMessage(), Toast.LENGTH_LONG).show();
+        }
+
+        return requestError;
+    }
 
     protected boolean avoidDuplicateClick() {
         long now = System.currentTimeMillis();

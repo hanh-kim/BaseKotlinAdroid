@@ -2,6 +2,7 @@ package com.base.mvvmbasekotlin.base;
 
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +12,14 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 
+import com.base.mvvmbasekotlin.base.entity.BaseListLoadMoreResponse;
+import com.base.mvvmbasekotlin.base.entity.BaseListResponse;
+import com.base.mvvmbasekotlin.base.entity.BaseObjectResponse;
+import com.base.mvvmbasekotlin.utils.Define;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -81,11 +88,73 @@ public abstract class BaseFragment extends DaggerFragment {
         setArguments(bundle);
     }
 
-//    protected void handleNetworkError(Throwable throwable, boolean isShowDialog) {
-//        if (getActivity() != null && getActivity() instanceof BaseActivity) {
-//            ((BaseActivity) getActivity()).handleNetworkError(throwable, isShowDialog);
-//        }
-//    }
+    protected void handleListResponse(BaseListResponse<?> response) {
+        switch (response.getType()) {
+            case Define.ResponseStatus.LOADING:
+                showLoading();
+                break;
+            case Define.ResponseStatus.SUCCESS:
+                getListResponse(response.getData());
+                hideLoading();
+                break;
+            case Define.ResponseStatus.ERROR:
+                hideLoading();
+                handleNetworkError(response.getError(), true);
+        }
+    }
+
+    protected void handleLoadMoreResponse(BaseListLoadMoreResponse<?> response) {
+        switch (response.getType()) {
+            case Define.ResponseStatus.LOADING:
+                showLoading();
+                break;
+            case Define.ResponseStatus.SUCCESS:
+                getListResponse(response.getData(), response.isRefresh(), response.isLoadmore());
+                hideLoading();
+                break;
+            case Define.ResponseStatus.ERROR:
+                handleNetworkError(response.getError(), true);
+                hideLoading();
+        }
+    }
+
+    protected <U> void handleObjectResponse(BaseObjectResponse<U> response) {
+        switch (response.getType()) {
+            case Define.ResponseStatus.LOADING:
+                showLoading();
+                break;
+            case Define.ResponseStatus.SUCCESS:
+                getObjectResponse(response.getData());
+                hideLoading();
+                break;
+            case Define.ResponseStatus.ERROR:
+                handleNetworkError(response.getError(), true);
+                hideLoading();
+        }
+    }
+
+    protected void showLoading() {
+    }
+
+    protected void hideLoading() {
+    }
+
+    protected void getListResponse(List<?> data) {
+
+    }
+
+    protected void getListResponse(List<?> data, boolean isRefresh, boolean canLoadmore) {
+
+    }
+
+    protected <U> void getObjectResponse(U data) {
+    }
+
+    protected void handleNetworkError(Throwable throwable, boolean isShowDialog) {
+        if (getActivity() != null && getActivity() instanceof BaseActivity) {
+            ((BaseActivity) getActivity()).handleNetworkError(throwable, isShowDialog);
+        }
+    }
 
     protected boolean avoidDuplicateClick() {
         if (getActivity() != null && getActivity() instanceof BaseActivity) {

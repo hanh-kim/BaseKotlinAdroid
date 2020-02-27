@@ -1,28 +1,27 @@
 package com.base.mvvmbasekotlin.utils
 
-class Define {
+open class Define {
 
-    object Api {
-
+    open class Api {
         val CONTENT_TYPE = "Content-Type: application/json"
         val LOGIN_URL = "app_api/v1/auth/user"
 
+        companion object {
+            const val ERROR_CODE = "error_code"
+            const val ERROR_MESSAGE = "error_message"
+            const val NO_NETWORK_CONNECTION = "NO_NETWORK_CONNECTION"
+            const val TIME_OUT = "TIME_OUT"
+            const val UNKNOWN = "UNKNOWN"
+        }
 
         object BaseResponse {
             val SUCCESS = "success"
             val DATA = "data"
             val PAGE = "page"
             val ERROR = "error"
-            val ERROR_CODE = "error_code"
-            val ERROR_MESSAGE = "error_message"
+
         }
 
-        object Error {
-            // Declare variable name by function description
-            val NO_NETWORK_CONNECTION = "NO_NETWORK_CONNECTION"
-            val TIME_OUT = "TIME_OUT"
-            val UNKNOWN = "UNKNOWN"
-        }
 
         object Key {
             val AUTHORIZATION = "Authorization"
@@ -40,10 +39,12 @@ class Define {
         val ACCESS_TOKEN_EXPIRED = "ACCESS_TOKEN_EXPIRED"
     }
 
-    object ResponseStatus {
-        val LOADING = 1
-        val SUCCESS = 2
-        val ERROR = 0
+    open class ResponseStatus {
+        companion object {
+            const val LOADING = 1
+            const val SUCCESS = 2
+            const val ERROR = 0
+        }
     }
 
     class Database {
@@ -92,5 +93,6 @@ class Define {
 
         val DEFAULT_TIMEOUT = 60L
         val CLICK_TIME_INTERVAL = 300L
+
     }
 }
