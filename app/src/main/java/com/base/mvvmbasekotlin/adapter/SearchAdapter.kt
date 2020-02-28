@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.base.mvvmbasekotlin.R
 import com.base.mvvmbasekotlin.base.adapter.EndlessLoadingRecyclerViewAdapter
 import com.base.mvvmbasekotlin.entity.User
+import com.base.mvvmbasekotlin.extension.inflate
 import kotlinx.android.synthetic.main.item_search.view.*
 
 class SearchAdapter(context: Context) : EndlessLoadingRecyclerViewAdapter(context, false) {
@@ -26,11 +27,7 @@ class SearchAdapter(context: Context) : EndlessLoadingRecyclerViewAdapter(contex
 
     override fun initNormalViewHolder(parent: ViewGroup): RecyclerView.ViewHolder? {
         return SearchViewHolder(
-            LayoutInflater.from(context).inflate(
-                R.layout.item_search,
-                parent,
-                false
-            )
+            context!!.inflate(R.layout.item_search,parent,false)
         )
     }
 

@@ -1,14 +1,14 @@
 package com.base.mvvmbasekotlin.ui
 
 import android.util.Log
-import androidx.lifecycle.GeneratedAdapter
+import android.widget.Toast
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.base.mvvmbasekotlin.R
 import com.base.mvvmbasekotlin.adapter.SearchAdapter
 import com.base.mvvmbasekotlin.base.BaseFragment
 import com.base.mvvmbasekotlin.base.adapter.EndlessLoadingRecyclerViewAdapter
 import com.base.mvvmbasekotlin.entity.User
+import com.base.mvvmbasekotlin.extension.*
 import kotlinx.android.synthetic.main.splash_fragment.*
 
 class SplashFragment : BaseFragment(),EndlessLoadingRecyclerViewAdapter.OnLoadingMoreListener {
@@ -26,7 +26,7 @@ class SplashFragment : BaseFragment(),EndlessLoadingRecyclerViewAdapter.OnLoadin
     }
 
     override fun initView() {
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(SplashViewModel::class.java)
+        viewModel = getViewModel(viewModelFactory)
         initAdapter()
         viewModel.getData()
         viewModel.data.observe(viewLifecycleOwner, Observer {
@@ -35,6 +35,17 @@ class SplashFragment : BaseFragment(),EndlessLoadingRecyclerViewAdapter.OnLoadin
     }
 
     override fun initData() {
+        btn.onAvoidDoubleClick{
+            Log.v("ahuhu","ahihi")
+            toast("ahuhu")
+            edt.showKeyboard()
+        }
+
+        edt.textChangedListener {
+            after {
+                Log.v("ahuhu","$it")
+            }
+        }
     }
 
     override fun getListResponse(data: MutableList<*>?, isRefresh: Boolean, canLoadmore: Boolean) {
