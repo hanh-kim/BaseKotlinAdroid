@@ -19,15 +19,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-
-
-
-    <androidx.recyclerview.widget.RecyclerView
+    <com.base.mvvmbasekotlin.base.adapter.BaseRecyclerView
         android:id="@+id/rcv"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_search"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Hello" />
+        app:brv_enable_refresh="true"
+        app:brv_padding="10dp"/>
 
 </LinearLayout>

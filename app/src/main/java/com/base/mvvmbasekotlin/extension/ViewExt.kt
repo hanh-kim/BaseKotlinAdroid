@@ -33,7 +33,7 @@ fun View.onAvoidDoubleClick(
     }
 }
 
-fun TextView.textChangedListener(init: TextWatcherWrapper.() -> Unit) {
+infix fun TextView.textChangedListener(init: TextWatcherWrapper.() -> Unit) {
     val wrapper = TextWatcherWrapper().apply { init() }
     addTextChangedListener(object : TextWatcher {
         override fun afterTextChanged(p0: Editable) {
@@ -51,7 +51,7 @@ fun TextView.textChangedListener(init: TextWatcherWrapper.() -> Unit) {
     })
 }
 
-fun ViewPager.pageChangeListener(init: OnPageChangeListenerWrapper.() -> Unit) {
+infix fun ViewPager.pageChangeListener(init: OnPageChangeListenerWrapper.() -> Unit) {
     val wrapper = OnPageChangeListenerWrapper().apply { init() }
     addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
         override fun onPageScrollStateChanged(state: Int) {

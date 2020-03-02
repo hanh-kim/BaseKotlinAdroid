@@ -112,6 +112,6 @@ abstract class EndlessLoadingRecyclerViewAdapter(context: Context, enableSelecte
     class LoadingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     companion object {
-        val VIEW_TYPE_LOADING = -1
+        const val VIEW_TYPE_LOADING = -1
     }
 }
