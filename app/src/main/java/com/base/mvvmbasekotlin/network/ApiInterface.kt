@@ -11,7 +11,7 @@ import retrofit2.http.*
 
 interface ApiInterface {
 
-    @GET("search")
+    @GET("search1")
     @Headers("Content-Type: application/json", "lang: vi")
     fun getDataUser(
         @Query("s") keyWord: String,

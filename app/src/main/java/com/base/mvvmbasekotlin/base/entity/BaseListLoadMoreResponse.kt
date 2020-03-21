@@ -20,10 +20,12 @@ class BaseListLoadMoreResponse<T> : BaseListResponse<T> {
         data: List<T>?,
         error: Throwable?,
         isRefresh: Boolean,
-        isLoadmore: Boolean
+        isLoadmore: Boolean,
+        isShowingError: Boolean = true
     ) : super(type, data, error) {
         this.isRefresh = isRefresh
         this.isLoadmore = isLoadmore
+        this.isShowingError = isShowingError
     }
 
     override fun loading(): BaseListLoadMoreResponse<T>? {
@@ -52,13 +54,14 @@ class BaseListLoadMoreResponse<T> : BaseListResponse<T> {
         )
     }
 
-    override fun error(throwable: Throwable): BaseListLoadMoreResponse<T> {
+    override fun error(throwable: Throwable,isShowingError:Boolean): BaseListLoadMoreResponse<T> {
         return BaseListLoadMoreResponse(
             Define.ResponseStatus.ERROR,
             null,
             throwable,
             isRefresh,
-            isLoadmore
+            isLoadmore,
+            isShowingError
         )
     }
 }

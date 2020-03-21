@@ -2,7 +2,6 @@ package com.base.mvvmbasekotlin.base;
 
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 
+import com.base.mvvmbasekotlin.base.entity.BaseError;
 import com.base.mvvmbasekotlin.base.entity.BaseListLoadMoreResponse;
 import com.base.mvvmbasekotlin.base.entity.BaseListResponse;
 import com.base.mvvmbasekotlin.base.entity.BaseObjectResponse;
@@ -99,7 +99,11 @@ public abstract class BaseFragment extends DaggerFragment {
                 break;
             case Define.ResponseStatus.ERROR:
                 hideLoading();
-                handleNetworkError(response.getError(), true);
+                if(response.isShowingError()){
+                    handleNetworkError(response.getError(), true);
+                }else {
+                    handleValidateError((BaseError)response.getError());
+                }
         }
     }
 
@@ -113,7 +117,11 @@ public abstract class BaseFragment extends DaggerFragment {
                 hideLoading();
                 break;
             case Define.ResponseStatus.ERROR:
-                handleNetworkError(response.getError(), true);
+                if(response.isShowingError()){
+                    handleNetworkError(response.getError(), true);
+                }else {
+                    handleValidateError((BaseError)response.getError());
+                }
                 hideLoading();
         }
     }
@@ -128,7 +136,11 @@ public abstract class BaseFragment extends DaggerFragment {
                 hideLoading();
                 break;
             case Define.ResponseStatus.ERROR:
-                handleNetworkError(response.getError(), true);
+                if(response.isShowingError()){
+                    handleNetworkError(response.getError(), true);
+                }else {
+                    handleValidateError((BaseError)response.getError());
+                }
                 hideLoading();
         }
     }
@@ -154,6 +166,10 @@ public abstract class BaseFragment extends DaggerFragment {
         if (getActivity() != null && getActivity() instanceof BaseActivity) {
             ((BaseActivity) getActivity()).handleNetworkError(throwable, isShowDialog);
         }
+    }
+
+    protected void handleValidateError(BaseError throwable){
+
     }
 
     protected boolean avoidDuplicateClick() {

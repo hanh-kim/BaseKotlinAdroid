@@ -2,6 +2,7 @@ package com.base.mvvmbasekotlin.ui
 
 import android.Manifest
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -11,6 +12,7 @@ import com.base.mvvmbasekotlin.adapter.SearchAdapter
 import com.base.mvvmbasekotlin.base.BaseFragment
 import com.base.mvvmbasekotlin.base.adapter.EndlessLoadingRecyclerViewAdapter
 import com.base.mvvmbasekotlin.base.adapter.RecyclerViewAdapter
+import com.base.mvvmbasekotlin.base.entity.BaseError
 import com.base.mvvmbasekotlin.base.permission.PermissionHelper
 import com.base.mvvmbasekotlin.entity.User
 import com.base.mvvmbasekotlin.extension.getViewModel
@@ -21,9 +23,10 @@ import kotlinx.android.synthetic.main.splash_fragment.*
 
 class SplashFragment : BaseFragment() {
     private lateinit var searchAdapter: SearchAdapter
-    private val permissionHelper : PermissionHelper by lazy {
+    private val permissionHelper: PermissionHelper by lazy {
         PermissionHelper()
     }
+
     override fun getLayoutId(): Int {
         return R.layout.splash_fragment
     }
@@ -49,7 +52,8 @@ class SplashFragment : BaseFragment() {
             permissionHelper.withFragment(this)
                 .check(
                     Manifest.permission.CAMERA,
-                    Manifest.permission.READ_EXTERNAL_STORAGE)
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                )
                 .onSuccess(Runnable {
                     toast("success")
                 })
@@ -74,7 +78,7 @@ class SplashFragment : BaseFragment() {
         permissions: Array<String>,
         grantResults: IntArray
     ) {
-        permissionHelper.onRequestPermissionsResult(requestCode,permissions,grantResults)
+        permissionHelper.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
     override fun getListResponse(data: MutableList<*>?, isRefresh: Boolean, canLoadmore: Boolean) {
@@ -112,6 +116,10 @@ class SplashFragment : BaseFragment() {
                 toast(data?.id.toString() + " " + data?.name)
             }
         })
+    }
+
+    override fun handleValidateError(throwable: BaseError) {
+        toast("error " + throwable.message + "  "+throwable.code)
     }
 
 
