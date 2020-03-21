@@ -1,8 +1,7 @@
 package com.base.mvvmbasekotlin.ui
 
+import android.Manifest
 import android.util.Log
-import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -10,16 +9,21 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.base.mvvmbasekotlin.R
 import com.base.mvvmbasekotlin.adapter.SearchAdapter
 import com.base.mvvmbasekotlin.base.BaseFragment
-import com.base.mvvmbasekotlin.base.adapter.BaseRecyclerView
 import com.base.mvvmbasekotlin.base.adapter.EndlessLoadingRecyclerViewAdapter
 import com.base.mvvmbasekotlin.base.adapter.RecyclerViewAdapter
+import com.base.mvvmbasekotlin.base.permission.PermissionHelper
 import com.base.mvvmbasekotlin.entity.User
-import com.base.mvvmbasekotlin.extension.*
+import com.base.mvvmbasekotlin.extension.getViewModel
+import com.base.mvvmbasekotlin.extension.onAvoidDoubleClick
+import com.base.mvvmbasekotlin.extension.textChangedListener
+import com.base.mvvmbasekotlin.extension.toast
 import kotlinx.android.synthetic.main.splash_fragment.*
 
 class SplashFragment : BaseFragment() {
     private lateinit var searchAdapter: SearchAdapter
-
+    private val permissionHelper : PermissionHelper by lazy {
+        PermissionHelper()
+    }
     override fun getLayoutId(): Int {
         return R.layout.splash_fragment
     }
@@ -42,8 +46,20 @@ class SplashFragment : BaseFragment() {
 
     override fun initData() {
         btn.onAvoidDoubleClick {
-            Log.v("ahuhu", "ahihi")
-            toast("ahuhu")
+            permissionHelper.withFragment(this)
+                .check(
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.READ_EXTERNAL_STORAGE)
+                .onSuccess(Runnable {
+                    toast("success")
+                })
+                .onDenied(Runnable {
+                    toast("onDenied")
+                })
+                .onNeverAskAgain(Runnable {
+                    toast("onNeverAskAgain")
+                })
+                .run()
         }
 
         edt.textChangedListener {
@@ -51,6 +67,14 @@ class SplashFragment : BaseFragment() {
                 Log.v("ahuhu", "$it")
             }
         }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        permissionHelper.onRequestPermissionsResult(requestCode,permissions,grantResults)
     }
 
     override fun getListResponse(data: MutableList<*>?, isRefresh: Boolean, canLoadmore: Boolean) {
