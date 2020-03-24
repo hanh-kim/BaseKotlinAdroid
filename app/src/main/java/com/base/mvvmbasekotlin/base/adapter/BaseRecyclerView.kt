@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.base.mvvmbasekotlin.R
 import com.base.mvvmbasekotlin.base.adapter.EndlessLoadingRecyclerViewAdapter.OnLoadingMoreListener
+import com.base.mvvmbasekotlin.extension.ProjectColors
 import com.base.mvvmbasekotlin.extension.color
 import kotlinx.android.synthetic.main.layout_base_recyclerview.view.*
 
@@ -67,7 +68,7 @@ class BaseRecyclerView : RelativeLayout {
         val enableRefresh =
             a.getBoolean(R.styleable.BaseRecyclerView_brv_enable_refresh, true)
         swipeRefresh.isEnabled = enableRefresh
-        swipeRefresh.setColorSchemeColors(context.color(R.color.colorPrimary),context.color(R.color.colorPrimaryDark))
+        swipeRefresh.setColorSchemeColors(context.color(ProjectColors.colorPrimary),context.color(R.color.colorPrimaryDark))
     }
 
     fun setEnableRefresh(enableRefresh: Boolean) {
