@@ -1,26 +1,23 @@
 package com.base.mvvmbasekotlin
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.util.Log
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.base.mvvmbasekotlin.base.BaseActivity
 import com.base.mvvmbasekotlin.ui.SplashFragment
-import com.base.mvvmbasekotlin.ui.SplashViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : BaseActivity() {
 
-    override fun getLayoutId(): Int {
-        return R.layout.activity_main
-    }
 
-    override fun getFragmentContainerId(): Int {
-        return R.id.container
+    override val layoutResId: Int
+        get() = R.layout.activity_main
+    override val layoutId: Int
+        get() = R.id.container
+
+    override fun initListener() {
     }
 
     override fun initView() {
-        viewController?.addFragment(SplashFragment::class.java, null)
+        getViewController().addFragment(SplashFragment::class.java)
     }
 
     override fun initData() {

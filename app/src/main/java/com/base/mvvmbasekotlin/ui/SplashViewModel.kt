@@ -8,30 +8,16 @@ import com.base.mvvmbasekotlin.base.entity.BaseListLoadMoreResponse
 import com.base.mvvmbasekotlin.entity.User
 import com.base.mvvmbasekotlin.extension.ListLoadMoreResponse
 import com.base.mvvmbasekotlin.network.Repository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+@HiltViewModel
 class SplashViewModel @Inject constructor(var repo: Repository) : BaseViewModel() {
     var data: ListLoadMoreResponse<User> = MutableLiveData()
     var pageIndex = 1
     fun getData(isRefresh: Boolean = true) {
         data.value = BaseListLoadMoreResponse<User>().error(throwable = BaseError("ahhuhu",11),isShowingError = false)
 
-//        mDisposable.add(repo.getData(pageIndex).doOnSubscribe {
-//            data.value = BaseListLoadMoreResponse<User>().loading()
-//        }
-//            .subscribe(
-//                {
-//                    pageIndex++
-//                    data.value = BaseListLoadMoreResponse<User>().success(
-//                        it.data,
-//                        isRefresh,
-//                        pageIndex <= it.totalPage
-//                    )
-//                },
-//                {
-//                    data.value = BaseListLoadMoreResponse<User>().error(throwable = Exception("ahhuhu"),isShowingError = false)
-//                }
-//            ))
     }
 
     fun refreshData() {

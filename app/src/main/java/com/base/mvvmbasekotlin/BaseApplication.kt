@@ -1,17 +1,12 @@
 package com.base.mvvmbasekotlin
 
-import android.app.Activity
 import android.app.Application
 import android.content.Context
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasActivityInjector
-import javax.inject.Inject
-import com.base.mvvmbasekotlin.di.component.DaggerAppComponent
+import dagger.hilt.android.HiltAndroidApp
 
-class BaseApplication : Application(), HasActivityInjector {
-    @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
+@HiltAndroidApp
+class BaseApplication : Application() {
+
 
     companion object{
         lateinit var context: Context
@@ -22,14 +17,7 @@ class BaseApplication : Application(), HasActivityInjector {
 
         context = applicationContext;
 
-        DaggerAppComponent
-            .builder()
-            .application(this)
-            .build()
-            .inject(this)
     }
 
-    override fun activityInjector(): AndroidInjector<Activity> {
-        return dispatchingAndroidInjector
-    }
+
 }

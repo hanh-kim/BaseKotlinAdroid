@@ -4,26 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/colorPrimary"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.SplashFragment">
 
-    <Button
-        android:id="@+id/btn"
-        android:text="ahuhu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <EditText
-        android:id="@+id/edt"
-        android:text="ahuhu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <com.base.mvvmbasekotlin.base.adapter.BaseRecyclerView
-        android:id="@+id/rcv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:brv_enable_refresh="true"
-        app:brv_padding="10dp"/>
 
 </LinearLayout>
