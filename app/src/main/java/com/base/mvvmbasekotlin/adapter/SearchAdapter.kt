@@ -14,11 +14,7 @@ import kotlinx.android.synthetic.main.item_search.view.*
 class SearchAdapter(context: Context) : EndlessLoadingRecyclerViewAdapter(context, false) {
     override fun initLoadingViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
         return LoadingViewHolder(
-            LayoutInflater.from(context).inflate(
-                R.layout.layout_load_more,
-                parent,
-                false
-            )
+            parent.inflate(R.layout.item_search)
         )
     }
 

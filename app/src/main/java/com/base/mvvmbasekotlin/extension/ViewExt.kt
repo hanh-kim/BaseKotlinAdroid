@@ -3,13 +3,21 @@ package com.base.mvvmbasekotlin.extension
 import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import androidx.annotation.LayoutRes
 import androidx.viewpager.widget.ViewPager
 
 fun View.visible() {
     visibility = View.VISIBLE
+}
+
+
+fun ViewGroup.inflate(@LayoutRes layout: Int): View {
+    return LayoutInflater.from(context).inflate(layout, this, false)
 }
 
 fun View.gone() {

@@ -41,3 +41,8 @@ fun Context.statusBarHeight(restrictToLollipop: Boolean = true): Int {
     return result
 }
 
+fun String.toUpperCaseString() : String{
+    return this.toUpperCase()
+}
+
+
